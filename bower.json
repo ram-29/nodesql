@@ -1,0 +1,23 @@
+{
+  "name": "nodesql",
+  "description": "Simple app on NodeJS using MySqlDB",
+  "main": "app.js",
+  "authors": [
+    "Ram Delatina"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "mdi": "^1.9.33"
+  }
+}

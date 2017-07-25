@@ -1,0 +1,14 @@
+extends ./inc/layout
+
+block content
+  h1.page-header
+    i.mdi.mdi-file-document 
+    | Articles
+    a(href="/").btn.btn-success.pull-right.pull-right
+      | Add New 
+      i.mdi.mdi-file-plus
+    .clearfix
+  ul.list-group
+  each article in articles
+    li.list-group-item
+      a(href="/article/"+article.id)= article.title

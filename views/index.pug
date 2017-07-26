@@ -4,11 +4,43 @@ block content
   h1.page-header
     i.mdi.mdi-file-document 
     | Articles
-    a(href="/").btn.btn-success.pull-right.pull-right
-      | Add New 
-      i.mdi.mdi-file-plus
+    a(data-toggle="modal" href='#add-article').btn.btn-success.pull-right.pull-right 
+      i.mdi.mdi-file-plus.mdi-24px
     .clearfix
   ul.list-group
   each article in articles
-    li.list-group-item
-      a(href="/article/"+article.id)= article.title
+    .panel.panel-default
+      .row
+        .col-md-4.col-sm-4
+          img(class='img-responsive', style='width:100%;', src='http://lorempixel.com/400/200/sports/', alt='image')
+        .col-md-8.col-sm-8(style='padding:0 25px;')
+          h3
+            a(href='/article/'+article.id)= article.title, article.createdAt
+          small= article.author
+          p
+            strong= article.content
+
+  div(id='add-article').modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button(type='button', data-dismiss='modal', aria-hidden='true').close &times;
+          h4.modal-title 
+            i.mdi.mdi-information-outline.mdi-24px 
+            | Article information
+        .modal-body
+          form(action='/api/article/create', method='post', role='form')
+            .form-group
+              label Title
+              input(name='title', type='text', placeholder='Title', required).form-control
+            .form-group
+              label Author
+              input(name='author', type='text', placeholder='Author', required).form-control
+            .form-group
+              label Content
+              textarea(name='content', style='resize:vertical;', rows='5', placeholder='Content', required).form-control
+            .modal-footer
+              button(type='button', data-dismiss='modal').btn.btn-danger
+                i.mdi.mdi-close-octagon-outline.mdi-18px
+              button(type='submit').btn.btn-primary 
+                i.mdi.mdi-content-save.mdi-18px

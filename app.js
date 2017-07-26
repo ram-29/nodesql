@@ -44,7 +44,7 @@ app.set('view engine', 'pug');
 
 // Routes
 app.get('/', (req, res) => {
-  Article.findAll().then((result) => {
+  Article.findAll({order:[['id', 'DESC']]}).then((result) => {
    Promise.all(result.map(obj => obj.dataValues))
       .then((articles) => {
         res.render('index', {
@@ -52,13 +52,29 @@ app.get('/', (req, res) => {
         });
     });
   }).catch(err => {
-    console.log(err);
+    res.send({
+      type: 'error',
+      message: `${err}`
+    });
   });
 });
 
 app.get('/stats', (req, res) => {
   res.render('stats', {
     
+  });
+});
+
+app.get('/article/:id', (req, res) => {
+  Article.findById(req.params.id).then((result) => {
+    res.render('article', {
+      article: result.dataValues
+    });
+  }).catch(err => {
+    res.send({
+      type: 'error',
+      message: `${err}`
+    });
   });
 });
 
@@ -70,14 +86,11 @@ app.get('/stats', (req, res) => {
       author: req.body.author,
       content: req.body.content,
     }).then(() => {
-      res.send({
-        type: 'SUCCESS',
-        message: 'Data successfully inserted.'
-      });
+      res.redirect('/');
     }).catch(err => {
       res.send({
-        type: 'ERROR',
-        message: err
+        type: 'error',
+        message: `${err}`
       });
     });
   });

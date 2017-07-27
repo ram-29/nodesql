@@ -2,25 +2,23 @@ extends ./inc/layout
 
 block content
   h1.page-header= article.title
-    a.btn.btn-default(href='/', class='pull-right') 
+    a.btn.btn-default(href='/').pull-right.btn.btn-default 
       i.mdi.mdi-arrow-left-bold.mdi-18px
   .clearfix
   img(style='width:100%', src='http://lorempixel.com/400/200/sports/', alt='image')
   hr
   .container
-    .col-md-6
-      small= article.author
-        p
-          strong= article.content
-    .col-md-6
-      form(method='post', role='form').pull-right
-        .form-group
-          a(data-toggle="modal" href='#edit-article').btn.btn-warning 
-            i.mdi.mdi-lead-pencil.mdi-18px 
-          button(type='submit').btn.btn-danger 
-            i.mdi.mdi-delete.mdi-18px
-      .clearfix
-  hr
+    h4= article.author
+    h5= article.createdAt
+    br
+    p= article.content
+    .pull-right
+      a(data-toggle="modal" href='#edit-article').btn.btn-warning 
+        i.mdi.mdi-lead-pencil.mdi-18px 
+      a(data-toggle="modal" href='#delete-article').btn.btn-danger
+        i.mdi.mdi-delete.mdi-18px
+    .clearfix
+    hr
 
   div(id='edit-article').modal.fade
     .modal-dialog
@@ -31,7 +29,7 @@ block content
             i.mdi.mdi-information-outline.mdi-24px 
             | Article information
         .modal-body
-          form(method='post', role='form')
+          form(action='/api/article/update/'+article.id, method='post', role='form')
             .form-group
               label Title
               input(name='title', type='text', placeholder='Title', value=article.title, required).form-control
@@ -42,7 +40,25 @@ block content
               label Content
               textarea(name='content', style='resize:vertical;', rows='5', placeholder='Content', required).form-control= article.content
             .modal-footer
-              button(type='button', data-dismiss='modal').btn.btn-danger
+              button(type='button', data-dismiss='modal').btn.btn-default
                 i.mdi.mdi-close-octagon-outline.mdi-18px
-              button(type='submit').btn.btn-primary 
+              button(type='submit').btn.btn-success 
                 i.mdi.mdi-content-save.mdi-18px
+
+  div(id='delete-article').modal.fade
+    .modal-dialog.modal-sm
+      .modal-content
+        .modal-header
+          button(type='button', data-dismiss='modal', aria-hidden='true').close &times;
+          h4.modal-title 
+            i.mdi.mdi-information-outline.mdi-24px 
+            | Delete article
+        .modal-body
+          form(action='/api/article/delete/'+article.id, method='post', role='form')
+            h5 Are you sure?
+            .modal-footer
+              button(type='button', data-dismiss='modal').btn.btn-default 
+                i.mdi.mdi-close-octagon-outline.mdi-18px
+              button(type='submit').btn.btn-success 
+                i.mdi.mdi-check.mdi-18px
+      

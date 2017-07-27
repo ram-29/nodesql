@@ -27,6 +27,8 @@ html(lang='en')
               a(href='/stats')
                 i.mdi.mdi-chart-bar.mdi-18px
     .container
+      != messages('inc/flash-message', locals)
       block content
     script(src="/bower_components/jquery/dist/jquery.min.js")
     script(src="/bower_components/bootstrap/dist/js/bootstrap.min.js")
+    script(src="/main.js")

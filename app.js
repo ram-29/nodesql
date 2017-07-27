@@ -129,7 +129,6 @@ app.get('/stats', (req, res) => {
   app.post('/api/article/create', (req, res) => {
     
     req.checkBody('title', 'Title is required').notEmpty();
-    req.checkBody()
     req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('content', 'Content is required').notEmpty();
 

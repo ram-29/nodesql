@@ -87,20 +87,23 @@ app.set('view engine', 'pug');
 
 // Routes
 app.get('/', (req, res) => {
-  Article.findAll({ order: [['id', 'DESC']] }).then((result) => {
-    Promise.all(result.map(obj => {
-      obj.dataValues.createdAt = moment(obj.dataValues.createdAt).fromNow();
-      return obj.dataValues;
-    })).then((articles) => {
+  Article.findAll({ order: [['id', 'DESC']], limit: 10 })
+    .then((result) => {
+      return new Promise((res, rej) => {
+        res(result.map(obj => {
+          obj.dataValues.createdAt = moment(obj.dataValues.createdAt).fromNow();
+          return obj.dataValues;
+        }));
+      });
+    }).then((articles) => {
       res.render('index', {
         articles: articles
       });
-    });
-  }).catch(err => {
-    res.send({
-      type: 'error',
-      message: `${err}`
-    });
+    }).catch(err => {
+      res.send({
+        type: 'error',
+        message: `${err}`
+      });
   });
 });
 
@@ -129,7 +132,6 @@ app.get('/stats', (req, res) => {
   app.post('/api/article/create', (req, res) => {
     
     req.checkBody('title', 'Title is required').notEmpty();
-    req.checkBody()
     req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('content', 'Content is required').notEmpty();
 
